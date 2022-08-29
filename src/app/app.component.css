@@ -1,0 +1,87 @@
+/* AppComponent's private CSS styles */
+
+* {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  border: none;
+  text-decoration: none;
+  background-color: white;
+  color: black;
+  font-family: monospace;
+  font-size: 105%;
+}
+
+#app {
+  margin: 8em 0;
+  margin-left: 15%;
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 7em;
+}
+
+#editor {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 1.5em;
+}
+
+.lbl {
+  padding-left: 1em;
+}
+
+.section {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 1em;
+}
+
+.userlist {
+  padding: 1em;
+  height: 15em;
+  width: 18em;
+  border-style: solid;
+  border-width: 2px;
+  border-color: black;
+}
+
+.clicked {
+  background-color: #87cefa;
+}
+
+.buttons {
+  height: 17em;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+}
+
+.btn {
+  background-color: #e6e6e6;
+  border-style: solid;
+  border-width: 10px;
+  border-top-color: #f3f3f3;
+  border-left-color: #ececec;
+  border-right-color: #acacac;
+  border-bottom-color: #737373;
+  text-align: center;
+  font-weight: bold;
+  padding: 0.5em 1.5em;
+}
+
+.btn:enabled {
+  cursor: pointer;
+}
+
+#add {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 1.5em;
+}
+
+input {
+  border: solid;
+  border-width: 2px;
+  padding: 1em;
+  width: 14em;
+}

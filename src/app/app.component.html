@@ -1,0 +1,33 @@
+<div id="app">
+  <div id="editor">
+    <div id="all" class="section">
+      <label class="lbl" for="allusers">All Users</label>
+      <div id="allusers" class="userlist all">
+        <ul>
+          <li *ngFor='let user of users' [ngClass]="{'clicked': user.clicked}" (click)="click(user)">{{user.name}}</li>
+        </ul>
+      </div>
+    </div>
+    <div id="btns" class="section">
+      <label class="lbl" for="editbuttons"><br/></label>
+      <div id="editbuttons" class="buttons">
+        <button class="btn" (click)="select()">{{buttonValues[0]}}</button>
+        <button class="btn" (click)="selectAll()">{{buttonValues[1]}}</button>
+        <button class="btn" (click)="unselectAll()">{{buttonValues[2]}}</button>
+        <button class="btn" (click)="unselect()">{{buttonValues[3]}}</button>
+      </div>
+    </div>
+    <div id="selected" class="section">
+      <label class="lbl" for="selectedusers">Selected Users</label>
+      <div id="selectedusers" class="userlist selected">
+        <ul>
+          <li *ngFor="let user of selectedUsers" [ngClass]="{'clicked': user.clicked}" (click)="click(user)">{{user.name}}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div id="add">
+    <input type="text" placeholder="Add to List" [(ngModel)]="newUserField">
+    <button class="btn" (click)="addUser()">Add</button>
+  </div>
+</div>
