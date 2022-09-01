@@ -1,11 +1,5 @@
-//users: String[] = ['Kevin', 'Diana', 'Akilesh', 'Bob', 'Jim'];
-export interface user {
-  id: number,
-  name: String,
-  clicked: Boolean,
-  selected: Boolean,
-}
-export const MOCK_USERS: user[] = [
+import { User } from "./user"
+export const MOCK_USERS: User[] = [
   {
     id:1,
     name:'Kevin',

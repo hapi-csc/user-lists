@@ -26,6 +26,9 @@
       </div>
     </div>
   </div>
+  <div id="affect-users">
+    <button class="btn" (click)="deleteSelectedUsers()">Delete</button>
+  </div>
   <div id="add">
     <input type="text" placeholder="Add to List" [(ngModel)]="newUserField">
     <button class="btn" (click)="addUser()">Add</button>

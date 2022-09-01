@@ -1,5 +1,8 @@
 import { Component, Input } from '@angular/core';
-import { MOCK_USERS, user } from './mock_users';
+import { Subscription } from 'rxjs';
+import { User } from './user';
+import { MOCK_USERS } from './mock_users';
+import { UserService } from './user.service';
 
 @Component({
   selector: 'app-root',
@@ -8,13 +11,20 @@ import { MOCK_USERS, user } from './mock_users';
 })
 export class AppComponent {
   title = 'user-lists';
-  users: user[] = MOCK_USERS;
-  selectedUsers: user[] = [];
+  user$: Subscription;
+  users: User[] = [];
+  selectedUsers: User[] = [];
   buttonValues: String[] = [">", ">>", "<<", "<"]
-  clicked: user | undefined = undefined;
+  clicked: User | undefined = undefined;
   @Input() newUserField?: string;
 
-  click(u: user): void {
+  constructor(private userService: UserService) {
+    this.user$ = userService.getUsers().subscribe(users => {
+      this.users = users;
+    });
+  }
+
+  click(u: User): void {
     if(this.clicked === undefined) {
       this.clicked = u;
       u.clicked = true;
@@ -69,5 +79,10 @@ export class AppComponent {
       this.users.push({id:newID, name:this.newUserField, clicked:false, selected:false})
       this.newUserField='';
     }
+  }
+
+  deleteSelectedUsers(): void {
+    this.selectedUsers.forEach(u => this.userService.deleteUser(u.id));
+    this.selectedUsers = [];
   }
 }
