@@ -13,15 +13,15 @@
       <div id="editbuttons" class="buttons">
         <button class="btn" (click)="select()">&#62;</button>
         <button class="btn" (click)="selectAll()">&#62;&#62;</button>
-        <button class="btn" (click)="unselectAll()">&#60;</button>
-        <button class="btn" (click)="unselect()">&#60;&#60;</button>
+        <button class="btn" (click)="unselectAll()">&#60;&#60;</button>
+        <button class="btn" (click)="unselect()">&#60;</button>
       </div>
     </div>
     <div id="selected" class="section">
       <label class="lbl" for="selectedusers">Selected Users</label>
       <div id="selectedusers" class="userlist selected">
         <ul>
-          <li *ngFor="let user of selectedUsers" [ngClass]="{'clicked': user.clicked}" (click)="click(user)">{{user.user.name}}</li>
+          <li *ngFor="let user of getSelected()" [ngClass]="{'clicked': user.clicked}" (click)="click(user)">{{user.user.name}}</li>
         </ul>
       </div>
     </div>

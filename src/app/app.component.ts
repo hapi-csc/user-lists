@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ReplaySubject, Subscription } from 'rxjs';
-import { last, take } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { User } from './user';
 import { UserService } from './user.service';
 
@@ -25,10 +25,8 @@ export class AppComponent implements OnInit {
 
   private user$?: Subscription;
   users: UserUI[] = [];
-  selectedUsers: UserUI[] = [];
 
   private clickSub$?: ReplaySubject<UserUI>; 
-  private clicked: UserUI = NULL_USER;
 
   @Input() newUserField?: string;
 
@@ -68,41 +66,32 @@ export class AppComponent implements OnInit {
     return out;
   }
 
-  refreshSelected(): void {
-    this.users.forEach(u => {
-      if(u.selected && !this.selectedUsers.includes(u)) {
-          this.selectedUsers.push(u)
-      }
-    })
-    this.selectedUsers = this.selectedUsers.filter(u => u.selected)
+  getSelected(): UserUI[] {
+    return this.users.filter(u => u.selected);
   }
 
   selectAll(): void {
     this.users.forEach(u => u.selected = true)
-    this.refreshSelected()
   }
 
   unselectAll(): void {
     this.users.forEach(u => u.selected = false)
-    this.refreshSelected()
   }
 
   select(): void {
-    if(this.clicked !== undefined) {
-      this.users.find(u => u.user.id === this.clicked!.user.id)!.selected = true;
-      this.refreshSelected()
+    if(this.getClicked()) {
+      this.getClicked().selected = true;
     }
   }
 
   unselect(): void {
-    if(this.clicked !== undefined) {
-      this.users.find(u => u.user.id === this.clicked!.user.id)!.selected = false;
-      this.refreshSelected()
+    if(this.getClicked()) {
+      this.getClicked().selected = false;
     }
   }
 
   addUser(): void {
-    if(this.newUserField !== undefined) {
+    if(this.newUserField?.trim()) {
       let newID = Math.max(...this.users.map(u => u.user.id))+1;
       this.userService.addUser({id: newID, name: this.newUserField});
       this.newUserField='';
@@ -110,7 +99,6 @@ export class AppComponent implements OnInit {
   }
 
   deleteSelectedUsers(): void {
-    this.selectedUsers.forEach(u => this.userService.deleteUser(u.user.id));
-    this.selectedUsers = [];
+    this.getSelected().forEach(u => this.userService.deleteUser(u.user.id));
   }
 }
