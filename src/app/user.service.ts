@@ -10,22 +10,45 @@ import { User } from './user';
 export class UserService {
 
   private _url: string = 'api/users';
-  private _user$: Observable<User[]>;
-  private user$: ReplaySubject<User[]>;
+  private userObs$: Observable<User[]>;
+  private userSub$: ReplaySubject<User[]>;
 
   constructor(private http: HttpClient) {
-    this.user$ = new ReplaySubject<User[]>(1);
-    this._user$ = this.http.get<User[]>(this._url);
-    this._user$.subscribe(users => this.user$.next(users));
+    this.userSub$ = new ReplaySubject<User[]>(1);
+    this.userObs$ = this.http.get<User[]>(this._url);
+    this.userObs$.subscribe(users => this.userSub$.next(users));
   }
 
-  getUsers(): Observable<User[]> {
-    return this.user$;
+  observeUsers(): Observable<User[]> {
+    return this.userSub$;
+  }
+
+  getUsers(): User[] {
+   let out: User[] = [];
+   this.userSub$.pipe(take(1),).subscribe(users => out = users);
+   return out;
+  } 
+
+  // TODO
+  // add some sort of logging / notification for out === {}
+  getUser(id: number): User {
+   let out: User = {} as User;
+   this.userSub$.pipe(take(1),).subscribe(users => {
+     if(users)
+       out = users.find(u => u.id === id) || {} as User;
+   });
+   return out;
+  } 
+
+  addUser(newUser: User): void {
+    this.userSub$.pipe(take(1),).subscribe(users =>
+      this.userSub$.next([...users, newUser])
+    )
   }
 
   deleteUser(id: number): void {
-    this.user$.pipe(take(1),).subscribe(
-      users => this.user$.next(users.filter(u => u.id !== id))
+    this.userSub$.pipe(take(1),).subscribe(
+      users => this.userSub$.next(users.filter(u => u.id !== id))
     )
   }
 }
